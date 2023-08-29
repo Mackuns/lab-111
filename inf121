@@ -1,0 +1,109 @@
+public class Principal {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		PilaNum A=new PilaNum();
+		A.llenar(5);
+		System.out.println("Datos de pila");
+		A.mostrar();
+		
+		ordenarPilaAsc(A);
+		System.out.println("PILA ORDENAD");
+		A.mostrar();		
+	}
+	static void ordenarPilaAsc(PilaNum x){
+		PilaNum aux = new PilaNum();
+		PilaNum orden = new PilaNum();
+		while(!x.esVacia()){
+			int may = x.eli();
+			//comparar men con el resto de los elementos
+			while(!x.esVacia()){
+				int dato =x.eli();
+				if(may < dato){
+					aux.adi(may);
+					may = dato;	
+				}else{
+					aux.adi(dato);				
+				}
+			}
+			orden.adi(may);
+			x.vaciar(aux);
+		}
+		x.vaciar(orden);
+		
+	}
+}
+
+
+//pila
+import java.util.Scanner;
+
+public class PilaNum extends Vector{
+	private int tope;
+	
+	public PilaNum() {
+		this.tope = -1;
+	}
+	public boolean esVacia() {
+		if(this.tope == -1)
+			return true;
+		return false;
+	}
+	public boolean esLlena() {
+		if(this.tope == this.max-1)
+			return true;
+		return false;
+	}
+	public void adi(int elem) {
+		if(this.esLlena())
+			System.out.println("Pila llena!!!");
+		else {
+			this.tope++;
+			this.v[this.tope] = elem;
+		}
+	}
+	public int eli() {
+		int elem = -1;
+		if(this.esVacia())
+			System.out.println("Pila Vacia!!");
+		else {
+			elem = this.v[this.tope];
+			this.tope--;
+		}
+		return elem;
+	}
+	public void llenar(int n) {
+		Scanner lee = new Scanner(System.in);
+		for (int i = 0; i < n; i++) {
+			int elem = lee.nextInt();
+			this.adi(elem);
+		}
+	}
+	public void mostrar() {
+		PilaNum aux = new PilaNum();
+		while(!esVacia()) {
+			int elem = this.eli();
+			
+			//System.out.println("elemento: " + elem);
+			System.out.println(elem);
+			aux.adi(elem);
+		}
+		this.vaciar(aux);
+	}
+	public void vaciar(PilaNum aux) {
+		while(!aux.esVacia()) {
+			this.adi(aux.eli());
+		}
+	}
+	public int nroElem() {
+		return tope+1;
+	}
+}	
+//vector
+
+public class Vector {
+	protected int max = 50 ;
+	protected int [] v= new int[max];
+
+}
+
